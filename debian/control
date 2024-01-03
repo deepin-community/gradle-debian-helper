@@ -1,15 +1,33 @@
-Source: template-repository
-Section: unknown
+Source: gradle-debian-helper
+Section: java
 Priority: optional
-Maintainer: Tsic404 <liuheng@deepin.org>
-Build-Depends: debhelper (>= 11)
-Standards-Version: 4.1.3
-Homepage: https://github.com/deepin-community/template-repository
-#Vcs-Browser: https://salsa.debian.org/debian/deepin-community-template-repository
-#Vcs-Git: https://salsa.debian.org/debian/deepin-community-template-repository.git
+Maintainer: Debian Java Maintainers <pkg-java-maintainers@lists.alioth.debian.org>
+Uploaders:
+ Emmanuel Bourg <ebourg@apache.org>,
+ Kai-Chung Yan <seamlikok@gmail.com>
+Build-Depends:
+ debhelper-compat (= 13),
+ default-jdk-headless | default-jdk,
+ gradle (>= 4.4),
+ maven-debian-helper
+Standards-Version: 4.6.1
+Vcs-Git: https://salsa.debian.org/java-team/gradle-debian-helper.git
+Vcs-Browser: https://salsa.debian.org/java-team/gradle-debian-helper
 
-Package: template-repository
-Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Package: gradle-debian-helper
+Architecture: all
+Depends:
+ default-jre-headless | java7-runtime-headless,
+ gradle (>= 3.4.1-8~),
+ maven-repo-helper,
+ ${misc:Depends}
+Description: Helper tools for building Debian packages with Gradle
+ gradle-debian-helper contains helper tools to ease the packaging of Gradle
+ based projects in Debian. It consists in:
+ .
+  * a Gradle plugin resolving the dependencies against the system Maven
+    repository (/usr/share/maven-repo). The resolver uses the same Maven
+    rule files that maven-debian-helper and maven-repo-helper employ
+    (debian/maven.rules, debian/maven.ignoreRules).
+  * a debhelper class detecting Gradle build files, initializing the plugin
+    and running Gradle in offline mode.
